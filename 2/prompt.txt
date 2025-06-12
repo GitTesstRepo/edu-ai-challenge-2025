@@ -1,0 +1,9 @@
+I am testing my application. I found a bug "Logout button doesn’t work on Safari. It just doesn’t respond.". 
+Create a clear and well-structured bug ticket adapted into a Jira-compatible issue format. The output should follow this format:
+- Title
+- Description
+- Steps to Reproduce
+- Expected vs Actual Behavior
+- Environment (leave placeholders if unknown)
+- Severity or Impact
+The result should be adapted for saving as md-extension file.
