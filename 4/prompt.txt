@@ -1,0 +1,48 @@
+package main
+
+import "fmt"
+
+func processUserData(data []map[string]interface{}) []map[string]interface{} {
+    users := []map[string]interface{}{}
+    
+    for i := 0; i < len(data); i++ {
+        user := map[string]interface{}{
+            "id":     data[i]["id"],
+            "name":   data[i]["name"],
+            "email":  data[i]["email"],
+            "active": data[i]["status"] == "active",
+        }
+        users = append(users, user)
+    }
+    
+    fmt.Println("Processed " + fmt.Sprint(len(users)) + " users")
+    
+    return users
+}
+
+func saveToDatabase(users []map[string]interface{}) bool {
+    // TODO: Implement database connection
+    success := true
+    return success
+} 
+
+
+Review this processUserData functionality implementation above from these specified expert personas sequentially:
+
+As an Experienced Developer reviewing the function implementation:
+- Evaluate the clarity, structure, and maintainability of the code.
+- Assess whether the function follows best practices in terms of readability, modularity, and naming conventions.
+- Check for appropriate use of language features and ensure the implementation is idiomatic and aligns with team coding standards.
+As a Security Engineer reviewing the function implementation:
+- Analyze the function for potential security vulnerabilities, such as input validation, data exposure, or injection risks.
+- Ensure adherence to secure coding practices and verify that sensitive operations are handled appropriately.
+- Assess whether the function’s integration with other components introduces attack vectors or access control issues.
+As a Performance Specialist reviewing the function implementation:
+- Evaluate the computational efficiency and resource utilization of the function under typical and edge-case conditions.
+- Identify any performance bottlenecks, unnecessary complexity, or scalability limitations in the implementation.
+- Ensure the function aligns with performance benchmarks or requirements and suggest optimizations if necessary.
+
+Requirments:
+- Provide distinct and relevant feedback for each of the three roles.
+- Cover the specified focus areas for each role.
+- For each perspective, provide specific, actionable recommendations and observations to improve the code, not just generic statements.
