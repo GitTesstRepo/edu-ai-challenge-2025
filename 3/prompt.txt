@@ -1,0 +1,5 @@
+Analyze given a raw text in input task_3_input.docx file and perform the following:
+-	Generate a concise summary of the input text.
+-	Analyze the sentiment and classify it as positive, neutral, or negative.
+-	Provide a sentiment score (e.g., -1 for very negative, 0 for neutral, +1 for very positive). Can be any value from -1 to 1.
+-	Return the results in a structured JSON format, including all of the above and any relevant metadata you deem useful.
