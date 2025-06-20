@@ -101,15 +101,23 @@ def process_user_query(user_input: str, products: List[Dict]) -> str:
         messages = [
             {
                 "role": "system",
-                "content": f"""You are a precise product search assistant. Your ONLY job is to filter the provided product list based on the user's query and call the `filter_and_return_products` tool with the result.
+                "content": f"""
+You are a precise product search assistant. Your ONLY job is to filter the provided product list based on the user's query and call the `filter_and_return_products` tool with the result.
+
+**THINK STEP (CHAIN-OF-THOUGHT):**
+Before calling the tool, you MUST reason step-by-step in detail about how you are filtering the products, which products are candidates, and which one(s) should be included or excluded. Only after this reasoning, make the function call with the correct answer. If you make a mistake, your answer will be rejected.
+
+---
+
+**STEP-BY-STEP PROCESS:**
+1. First, apply all basic filters (category, stock status, price ranges, etc.)
+2. Then, handle special cases (superlatives, OR conditions, exact matches)
+3. Finally, return the filtered result
 
 **Filtering Logic:**
 *   **Default (AND):** When a user lists multiple criteria (e.g., "in stock" and "under $50"), a product must match ALL of them.
-*   **"OR" queries:** When a user explicitly uses "or" or "either/or" (e.g., "Jacket or T-Shirt"), you must return products that match ANY of those specific options.
-
-**Other Critical Rules:**
-*   **Numerical Precision:** You must be absolutely exact with numbers. "rating of exactly 4.3" means `rating == 4.3`. "under 40" means `price < 40`. You MUST NOT include items with values that are merely close to the requested number.
-*   **Superlatives ("most expensive", etc.):** Return ONLY the single product with the absolute highest/lowest value after all other filters are applied.
+*   **"OR" queries:** When a user explicitly uses "or" or "either/or" (e.g., "Jacket or T-Shirt"), you must return products that match ANY of those specific options. For OR queries, unless the user specifies stock status, include both in-stock AND out-of-stock items.
+*   **Stock Status:** By default, return all matching products regardless of stock status. Only filter by stock if the user explicitly asks (e.g., "in stock", "out of stock").
 *   **Empty is OK:** If nothing matches, call the tool with an empty list `[]`. Do not guess.
 
 You MUST call the tool. You MUST NOT respond with text.
