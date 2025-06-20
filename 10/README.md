@@ -27,6 +27,8 @@ A console-based product search application that uses OpenAI's Tools/Function Cal
         export OPENAI_API_KEY="YOUR_API_KEY_HERE"
         # For Windows (Command Prompt)
         set OPENAI_API_KEY="YOUR_API_KEY_HERE"
+        # For Windows (PowerShell)
+        $env:OPENAI_API_KEY = "YOUR_API_KEY_HERE"
 
         python product_search_tool.py
         ```
