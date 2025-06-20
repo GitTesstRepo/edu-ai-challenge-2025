@@ -1,0 +1,11 @@
+{
+  "word_count": 982,
+  "speaking_speed_wpm": 131,
+  "frequently_mentioned_topics": [
+    { "topic": "Chest Pain Symptoms", "mentions": 15 },
+    { "topic": "Heart Attack Concerns", "mentions": 7 },
+    { "topic": "Medical History and Family History", "mentions": 6 },
+    { "topic": "Diagnostic Testing and Management", "mentions": 5 },
+    { "topic": "Lifestyle and Social History", "mentions": 4 }
+  ]
+}
