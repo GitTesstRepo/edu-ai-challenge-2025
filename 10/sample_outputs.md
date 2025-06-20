@@ -43,12 +43,21 @@ Show me fitness equipment that's cheap and has good reviews
 ### Results:
 ```
 Filtered Products:
-1. Resistance Bands - $14.99, Rating: 4.1, In Stock
+1. Yoga Mat - $19.99, Rating: 4.3, In Stock
 2. Kettlebell - $39.99, Rating: 4.3, In Stock
 3. Foam Roller - $24.99, Rating: 4.5, In Stock
-4. Pull-up Bar - $59.99, Rating: 4.4, In Stock
-5. Jump Rope - $9.99, Rating: 4.0, In Stock
-6. Ab Roller - $19.99, Rating: 4.2, In Stock
+```
+
+---
+
+## Search Query:
+```
+Find a product named "4K Monitor" that costs less than $300.
+```
+
+### Results:
+```
+No products found matching your criteria.
 ```
 
 ---
