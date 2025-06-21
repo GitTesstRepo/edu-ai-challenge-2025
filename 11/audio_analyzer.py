@@ -5,6 +5,7 @@ import argparse
 from mutagen import File
 import datetime
 import json
+import re
 
 # --- Configuration ---
 API_TIMEOUT = 60.0  # seconds
@@ -100,6 +101,35 @@ def analyze_transcript(transcript, duration_ms):
         "word_count": word_count,
         "speaking_speed_wpm": int(speaking_speed)
     }
+
+def clean_transcription(transcript):
+    """
+    Cleans the transcription by removing minimal artifacts that indicate silence.
+    Returns empty string if the transcript only contains silence indicators.
+    """
+    if not transcript:
+        return ""
+    
+    # Remove common silence indicators
+    cleaned = transcript.strip()
+    
+    # Remove patterns that indicate silence or minimal content
+    silence_patterns = [
+        r'^[.\s]+$',  # Only dots and spaces
+        r'^\.+$',     # Only dots
+        r'^[\s\.]+$', # Only spaces and dots
+        r'^[^\w\s]*$', # No actual words, only punctuation/spaces
+    ]
+    
+    for pattern in silence_patterns:
+        if re.match(pattern, cleaned):
+            return ""
+    
+    # If cleaned transcript is very short and contains mostly punctuation, treat as silence
+    if len(cleaned) <= 10 and not any(word.isalpha() for word in cleaned.split()):
+        return ""
+    
+    return cleaned
 
 def process_audio_file(audio_path, timeout):
     """
