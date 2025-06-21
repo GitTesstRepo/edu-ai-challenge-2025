@@ -155,13 +155,45 @@ def process_audio_file(audio_path, timeout):
         print(f"An error occurred: {transcription}")
         return
 
-    with open(transcription_filename, "w") as f:
-        f.write(transcription)
+    # Clean the transcription to remove silence artifacts
+    cleaned_transcription = clean_transcription(transcription)
+    
+    # Check if the cleaned transcription is empty (silent file)
+    if not cleaned_transcription:
+        print("Detected silent or near-silent audio file.")
+        print("Creating empty transcription file.")
+        
+        # Create empty files
+        with open(transcription_filename, "w", encoding="utf-8") as f:
+            f.write("")
+        
+        with open(summary_filename, "w", encoding="utf-8") as f:
+            f.write("This audio file contains no detectable speech content.")
+        
+        with open(analysis_filename, "w", encoding="utf-8") as f:
+            f.write('{\n  "word_count": 0,\n  "speaking_speed_wpm": 0,\n  "frequently_mentioned_topics": []\n}')
+        
+        print(f"Transcription saved to {transcription_filename}")
+        print(f"Summary saved to {summary_filename}")
+        print(f"Analysis saved to {analysis_filename}")
+        
+        print("\n--- Summary ---")
+        print("This audio file contains no detectable speech content.")
+        print("\n--- Analytics ---")
+        print("Total Word Count: 0")
+        print("Speaking Speed: 0 WPM")
+        print("Frequently Mentioned Topics: None")
+        print("\nProcessing complete.")
+        return
+
+    # Save combined transcription
+    with open(transcription_filename, "w", encoding="utf-8") as f:
+        f.write(cleaned_transcription)
     print(f"Transcription saved to {transcription_filename}")
 
     # 2. Summarize Transcription
     print("\nSummarizing transcription...")
-    summary = summarize_text(transcription, timeout)
+    summary = summarize_text(cleaned_transcription, timeout)
     if summary.startswith("Error"):
         print(f"\n--- SCRIPT HALTED ---")
         print(f"An error occurred: {summary}")
@@ -174,8 +206,8 @@ def process_audio_file(audio_path, timeout):
     # 3. Analyze Transcript
     print("\nAnalyzing transcript...")
     duration_ms = get_audio_duration_ms(audio_path)
-    base_analytics = analyze_transcript(transcription, duration_ms)
-    topics = extract_topics(transcription, timeout)
+    base_analytics = analyze_transcript(cleaned_transcription, duration_ms)
+    topics = extract_topics(cleaned_transcription, timeout)
     if isinstance(topics, dict) and "error" in topics:
         print(f"\n--- SCRIPT HALTED ---")
         print(f"An error occurred: {topics['error']}")
