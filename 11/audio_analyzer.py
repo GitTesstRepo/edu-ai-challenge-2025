@@ -24,7 +24,8 @@ def transcribe_audio(file_path, timeout=API_TIMEOUT):
             transcript = client.audio.transcriptions.create(
                 model="whisper-1", 
                 file=audio_file,
-                timeout=timeout
+                timeout=timeout,
+                prompt="Spoken content only."
             )
         return transcript.text
     except Exception as e:
@@ -136,7 +137,7 @@ def process_audio_file(audio_path, timeout):
         print(f"An error occurred: {summary}")
         return
         
-    with open(summary_filename, "w") as f:
+    with open(summary_filename, "w", encoding="utf-8") as f:
         f.write(summary)
     print(f"Summary saved to {summary_filename}")
 
@@ -171,7 +172,7 @@ def process_audio_file(audio_path, timeout):
   ]
 }}"""
 
-    with open(analysis_filename, "w") as f:
+    with open(analysis_filename, "w", encoding="utf-8") as f:
         f.write(analysis_json_string)
     print(f"Analysis saved to {analysis_filename}")
 
