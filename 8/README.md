@@ -204,6 +204,29 @@ phone_validator = Schema.phone_number()
 custom_validator = Schema.custom(lambda x: isinstance(x, int) and x > 0)
 ```
 
+### Field-level Validators
+
+Field-level validators can be used to validate individual values outside of object schemas:
+
+```python
+# Validate a single IP address
+result = Schema.ip_address().validate('192.168.1.1')
+if result.is_valid:
+    print('Valid IP!')
+else:
+    print('Invalid IP:', result.errors)
+
+# Validate a phone number
+result = Schema.phone_number().validate('+1-234-567-8900')
+if result.is_valid:
+    print('Valid phone number!')
+
+# Validate with custom logic
+result = Schema.custom(lambda x: isinstance(x, int) and x > 0).validate(5)
+if result.is_valid:
+    print('Valid positive integer!')
+```
+
 ## Complex Schema Examples
 
 ### Nested Object Validation
@@ -414,16 +437,4 @@ The codebase is well-documented with inline comments, making it easy to understa
 
 ## License
 
-This library is provided as-is for educational and development purposes.
-
-## Field-level Validators
-
-Field-level validators can be used to validate individual values outside of object schemas, e.g.:
-
-```python
-result = Schema.ip_address().validate('192.168.1.1')
-if result.is_valid:
-    print('Valid IP!')
-else:
-    print('Invalid IP:', result.errors)
-``` 
+This library is provided as-is for educational and development purposes. 
